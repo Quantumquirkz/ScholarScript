@@ -1,15 +1,14 @@
-# String Manipulation
-
-**Due:** September 16, 2024 11:59 PM
+# Lab: Pointers
 
 ## Instructions
 
-1. **Palindrome:**  
-   - Create a function that checks if a string is a palindrome (reads the same forwards and backwards).
+In pairs, create two programs.
 
-2. **Reverse String:**  
-   - Write a program that reverses a string.
+1. **Encryption Program:**  
+   - The first program should create a text file and encrypt it using the Caesar Cipher.
 
-3. **Count Vowels:**  
-   - Write a program that counts the number of vowels (`a, e, i, o, u`) in a string.
+2. **Decryption Program:**  
+   - The second program should decrypt the file.
 
+
+Studentes: Emily Morales & Jhuomar Barría
