@@ -2,13 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Definición de un nodo en el mapa
 typedef struct Nodo {
     char nombre[50];
-    struct Nodo *opciones[3];  // Hasta 3 opciones de caminos por nodo
+    struct Nodo *opciones[3];  
 } Nodo;
 
-// Función para crear un nodo
 Nodo* crearNodo(char nombre[]) {
     Nodo *nuevoNodo = (Nodo*) malloc(sizeof(Nodo));
     strcpy(nuevoNodo->nombre, nombre);
@@ -18,11 +16,10 @@ Nodo* crearNodo(char nombre[]) {
     return nuevoNodo;
 }
 
-// Función para recorrer el mapa con múltiples opciones
 void mostrarOpciones(Nodo *inicio) {
     Nodo *actual = inicio;
     while (actual != NULL) {
-        printf("Ubicación actual: %s\n", actual->nombre);
+        printf("UbicaciÃ³n actual: %s\n", actual->nombre);
         printf("Opciones disponibles:\n");
         
         int opcionesDisponibles = 0;
@@ -34,10 +31,9 @@ void mostrarOpciones(Nodo *inicio) {
         }
         printf("0. Salir del mapa\n");
 
-        // Validación de entrada del usuario
         int opcion;
         do {
-            printf("Seleccione una opción: ");
+            printf("Seleccione una opciÃ³n: ");
             scanf("%d", &opcion);
             if (opcion == 0) {
                 printf("Saliendo del mapa...\n");
@@ -46,41 +42,36 @@ void mostrarOpciones(Nodo *inicio) {
                 actual = actual->opciones[opcion - 1];
                 break;
             } else {
-                printf("Opción no válida. Intente de nuevo.\n");
+                printf("OpciÃ³n no vÃ¡lida. Intente de nuevo.\n");
             }
         } while (1);
     }
 }
 
-// Función principal
 int main() {
-    // Creación de nodos (lugares)
     Nodo *elDorado = crearNodo("El Dorado");
-    Nodo *uip = crearNodo("Universidad Interamericana de Panamá (UIP)");
+    Nodo *uip = crearNodo("Universidad Interamericana de PanamÃ¡ (UIP)");
     Nodo *isae = crearNodo("Universidad ISAE");
-    Nodo *usma = crearNodo("Universidad Santa María La Antigua (USMA)");
-    Nodo *uLatina = crearNodo("Universidad Latina de Panamá (U LATINA)");
+    Nodo *usma = crearNodo("Universidad Santa MarÃ­a La Antigua (USMA)");
+    Nodo *uLatina = crearNodo("Universidad Latina de PanamÃ¡ (U LATINA)");
     Nodo *centennial = crearNodo("Centennial");
-    Nodo *utp = crearNodo("Universidad Tecnológica de Panamá (UTP)");
-    Nodo *up = crearNodo("Universidad de Panamá (UP)");
+    Nodo *utp = crearNodo("Universidad TecnolÃ³gica de PanamÃ¡ (UTP)");
+    Nodo *up = crearNodo("Universidad de PanamÃ¡ (UP)");
     Nodo *sanMiguelito = crearNodo("San Miguelito");
 
-    // Enlace entre nodos con opciones de caminos
-    elDorado->opciones[0] = uip;               // Camino desde El Dorado
-    uip->opciones[0] = isae;                   // Camino desde UIP
-    isae->opciones[0] = usma;                  // Camino desde ISAE
-    usma->opciones[0] = uLatina;               // Camino desde USMA
-    uLatina->opciones[0] = utp;                // Camino principal desde U Latina
-    uLatina->opciones[1] = centennial;         // Camino alternativo desde U Latina a Centennial
-    centennial->opciones[0] = utp;             // Camino de regreso de Centennial a UTP
-    utp->opciones[0] = up;                     // Camino desde UTP
-    up->opciones[0] = sanMiguelito;            // Camino desde UP hasta San Miguelito
+    elDorado->opciones[0] = uip;               
+    uip->opciones[0] = isae;                   
+    isae->opciones[0] = usma;                  
+    usma->opciones[0] = uLatina;               
+    uLatina->opciones[0] = utp;                
+    uLatina->opciones[1] = centennial;         
+    centennial->opciones[0] = utp;             
+    utp->opciones[0] = up;                     
+    up->opciones[0] = sanMiguelito;            
 
-    // Menú interactivo para mostrar el mapa
-    printf("Bienvenido al mapa de puntos de interés de Panamá.\n");
+    printf("Bienvenido al mapa de puntos de interÃ©s de PanamÃ¡.\n");
     mostrarOpciones(elDorado);
 
-    // Liberación de memoria
     free(elDorado);
     free(uip);
     free(isae);
