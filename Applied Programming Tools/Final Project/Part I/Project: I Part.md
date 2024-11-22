@@ -332,6 +332,142 @@ La lógica general del programa se basa en la interacción entre un mapa de nodo
 - **Estructuras de animatrónicos**: Se define una estructura para cada animatrónico que almacene su posición, su estado actual (patrullaje, caza, escondido), su comportamiento y las rutas preferidas.
 - **Estructura de jugador**: El jugador tendrá una estructura que almacene su posición actual, sus acciones (si está usando las cámaras, el generador, etc.), y sus interacciones con el mapa.
 
+## 3. Flujo de la Lógica del Programa
+
+### 1. Inicialización del Juego
+- El mapa de nodos se configura en una matriz de adyacencia.
+- Se definen los nodos del mapa, incluyendo las conexiones entre ellos.
+- El jugador y los animatrónicos son ubicados en nodos específicos en el mapa.
+
+### 2. Ciclo de Juego
+El juego se ejecuta en un ciclo continuo donde:
+- **El jugador realiza una acción**: El jugador se mueve o activa una acción (cámara, generador, etc.).
+- **Los animatrónicos se mueven**: Basado en su estado, los animatrónicos realizan su movimiento. Esto puede ser aleatorio, hacia el jugador o de manera sigilosa.
+- **El juego verifica si un animatrónico ha alcanzado al jugador**: Si el animatrónico alcanza al jugador, el juego termina.
+
+### 3. Finalización del Juego
+El juego finaliza cuando:
+- El jugador es atrapado por un animatrónico, o
+- Se alcanza el objetivo (si es que hay uno, como sobrevivir una cantidad de turnos).
+
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX_NODOS 20
+#define MAX_ANIMATRONICOS 5
+
+// Definición de un nodo en el mapa
+typedef struct {
+    int id;
+    char nombre[50];
+    int conexiones[MAX_NODOS]; // Lista de nodos conectados
+    int num_conexiones;
+} Nodo;
+
+// Definición de un animatrónico
+typedef struct {
+    int id;
+    int estado; // 0 = patrullando, 1 = cazando, 2 = escondido
+    int nodo_actual;
+    int nodo_destino;
+} Animatronico;
+
+// Definición del jugador
+typedef struct {
+    int nodo_actual;
+    int energia; // 0 = sin energía, 1 = con energía
+} Jugador;
+
+// Variables globales
+Nodo mapa[MAX_NODOS];
+Animatronico animatronicos[MAX_ANIMATRONICOS];
+Jugador jugador;
+
+// Funciones para interactuar con el mapa
+void mover_jugador(Jugador* jugador, int nuevo_nodo);
+void mover_animatronico(Animatronico* animatronico);
+int obtener_ruta(int nodo_inicio, int nodo_destino);
+void actualizar_estado_animatronico(Animatronico* animatronico);
+void mostrar_mapa();
+
+// Función principal
+int main() {
+    // Inicialización
+    srand(time(NULL));
+
+    // Inicializar el mapa de nodos
+    // Aquí se pueden agregar nodos con sus conexiones
+    // Nodo 0 -> Oficina, Nodo 1 -> Pasillo izquierdo, etc.
+
+    // Inicializar jugador y animatrónicos
+    jugador.nodo_actual = 0; // Empieza en la Oficina
+    jugador.energia = 1; // Empieza con energía
+
+    // Simulación del juego
+    while (1) {
+        mostrar_mapa(); // Mostrar el mapa actual (podría ser un mapa de texto simple)
+        printf("Turno del jugador:\n");
+        // El jugador decide qué hacer: mover, activar cámara, etc.
+
+        // El jugador se mueve (por ejemplo, ir al nodo 2)
+        mover_jugador(&jugador, 2); // Ejemplo de movimiento
+
+        // Los animatrónicos se mueven
+        for (int i = 0; i < MAX_ANIMATRONICOS; i++) {
+            mover_animatronico(&animatronicos[i]);
+        }
+
+        // Verificar si los animatrónicos han alcanzado al jugador
+        for (int i = 0; i < MAX_ANIMATRONICOS; i++) {
+            if (animatronicos[i].nodo_actual == jugador.nodo_actual) {
+                printf("¡Has sido atrapado por el animatrónico %d!\n", animatronicos[i].id);
+                return 0;
+            }
+        }
+
+        // Otros eventos del juego (ej., uso de generador)
+    }
+
+    return 0;
+}
+
+// Función para mover al jugador
+void mover_jugador(Jugador* jugador, int nuevo_nodo) {
+    jugador->nodo_actual = nuevo_nodo;
+}
+
+// Función para mover a un animatrónico
+void mover_animatronico(Animatronico* animatronico) {
+    if (animatronico->estado == 0) {
+        // Movimiento aleatorio o patrullaje
+        animatronico->nodo_actual = rand() % MAX_NODOS;
+    } else if (animatronico->estado == 1) {
+        // Movimiento hacia el jugador
+        animatronico->nodo_actual = obtener_ruta(animatronico->nodo_actual, jugador.nodo_actual);
+    } else if (animatronico->estado == 2) {
+        // Esperando o moviéndose de manera sigilosa
+        // Implementar lógica para esconderse
+    }
+}
+
+// Función para obtener una ruta desde un nodo a otro (ejemplo: BFS)
+int obtener_ruta(int nodo_inicio, int nodo_destino) {
+    // Implementar un algoritmo como BFS o Dijkstra para obtener la ruta más corta
+    return nodo_destino; // Placeholder, esta parte debería implementar el algoritmo de ruta
+}
+
+// Función para mostrar el mapa (simplificado)
+void mostrar_mapa() {
+    printf("Mapa Actual:\n");
+    printf("Jugador en nodo %d\n", jugador.nodo_actual);
+    for (int i = 0; i < MAX_ANIMATRONICOS; i++) {
+        printf("Animatrónico %d en nodo %d\n", animatronicos[i].id, animatronicos[i].nodo_actual);
+    }
+}```
+
 
 
 
