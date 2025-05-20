@@ -1,6 +1,14 @@
 # 💫 About Me:
-I am a Systems and Computer Engineering student at the Technological University of Panama, with a specialized focus on artificial intelligence. I have experience developing solutions using Python, C, and C++, and a solid knowledge in creating and optimizing neural networks. My goal is to apply my AI skills to solve complex problems and contribute significantly to the field of technology.
+I am a Systems and Computer Engineering student with a strong scientific background and a self-taught approach in key areas such as advanced mathematics, theoretical and applied physics, chemistry, programming, and robotics. My passion for understanding complex systems of the universe has led me to develop innovative technological solutions.
 
+## 🎯 Specialties:
+- **Software Development**: Python, AI APIs (Groq), web development, databases (SQLite)
+- **Sciences**: Advanced mathematics, theoretical physics, general and organic chemistry
+- **Emerging Technologies**: Machine Learning, symbolic computing (SageMath), AWS
+- **Robotics**: Automation projects and integrated systems
+
+## 🌟 Goal:
+My mission is to combine scientific thinking with engineering and technology to contribute to innovative projects in artificial intelligence, applied science, and complex systems.
 
 ## 🌐 Socials:
 [![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://facebook.com/https://www.facebook.com/jhuomar.barria.1/) [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/https://www.instagram.com/quantum.quirk31/) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/https://www.linkedin.com/in/jhuomar-barría/) [![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/https://x.com/Quantumquirk31) 
