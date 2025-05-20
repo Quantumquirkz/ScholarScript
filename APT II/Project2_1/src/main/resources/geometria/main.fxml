@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.web.WebView?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="geometria.MainController"
+      fx:id="rootVBox"
+      spacing="10.0"
+      styleClass="dark-mode">
+
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Label text="Calculadora Geométrica" styleClass="title-label"/>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <TabPane styleClass="custom-tab-pane">
+        <Tab text="Áreas" closable="false">
+            <ScrollPane fitToWidth="true" styleClass="custom-scroll-pane">
+                <VBox spacing="20">
+                    <padding>
+                        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                    </padding>
+
+                    <HBox spacing="20">
+                        <!-- Rectángulo -->
+                        <VBox spacing="15" styleClass="calculation-box" HBox.hgrow="ALWAYS">
+                            <Label text="Área del Rectángulo" styleClass="section-title"/>
+                            <GridPane hgap="10" vgap="10">
+                                <Label text="Base:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <TextField fx:id="rectanguloBase" promptText="Ingrese la base" 
+                                         GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                
+                                <Label text="Altura:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <TextField fx:id="rectanguloAltura" promptText="Ingrese la altura" 
+                                         GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                
+                                <Button text="Calcular" onAction="#calcularAreaRectangulo" 
+                                        GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                                        GridPane.columnSpan="2"/>
+                            </GridPane>
+                            <Label fx:id="resultadoRectangulo" styleClass="result-label"/>
+                            <WebView fx:id="procedimientoRectangulo" 
+                                    prefHeight="200" 
+                                    minHeight="200"
+                                    maxHeight="200"/>
+                        </VBox>
+
+                        <!-- Triángulo -->
+                        <VBox spacing="15" styleClass="calculation-box" HBox.hgrow="ALWAYS">
+                            <Label text="Área del Triángulo" styleClass="section-title"/>
+                            <GridPane hgap="10" vgap="10">
+                                <Label text="Base:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <TextField fx:id="trianguloBase" promptText="Ingrese la base" 
+                                         GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                
+                                <Label text="Altura:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <TextField fx:id="trianguloAltura" promptText="Ingrese la altura" 
+                                         GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                
+                                <Button text="Calcular" onAction="#calcularAreaTriangulo" 
+                                        GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                                        GridPane.columnSpan="2"/>
+                            </GridPane>
+                            <Label fx:id="resultadoTriangulo" styleClass="result-label"/>
+                            <WebView fx:id="procedimientoTriangulo" 
+                                    prefHeight="200" 
+                                    minHeight="200"
+                                    maxHeight="200"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+        <Tab text="Volúmenes" closable="false">
+            <ScrollPane fitToWidth="true" styleClass="custom-scroll-pane">
+                <VBox spacing="20">
+                    <padding>
+                        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                    </padding>
+
+                    <HBox spacing="20">
+                        <!-- Cono -->
+                        <VBox spacing="15" styleClass="calculation-box" HBox.hgrow="ALWAYS">
+                            <Label text="Volumen del Cono" styleClass="section-title"/>
+                            <GridPane hgap="10" vgap="10">
+                                <Label text="Radio:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <TextField fx:id="conoRadio" promptText="Ingrese el radio" 
+                                         GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                
+                                <Label text="Altura:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <TextField fx:id="conoAltura" promptText="Ingrese la altura" 
+                                         GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                
+                                <Button text="Calcular" onAction="#calcularVolumenCono" 
+                                        GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                                        GridPane.columnSpan="2"/>
+                            </GridPane>
+                            <Label fx:id="resultadoCono" styleClass="result-label"/>
+                            <WebView fx:id="procedimientoCono" prefHeight="150"/>
+                        </VBox>
+
+                        <!-- Cilindro -->
+                        <VBox spacing="15" styleClass="calculation-box" HBox.hgrow="ALWAYS">
+                            <Label text="Volumen del Cilindro" styleClass="section-title"/>
+                            <GridPane hgap="10" vgap="10">
+                                <Label text="Radio:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <TextField fx:id="cilindroRadio" promptText="Ingrese el radio" 
+                                         GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                
+                                <Label text="Altura:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <TextField fx:id="cilindroAltura" promptText="Ingrese la altura" 
+                                         GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                
+                                <Button text="Calcular" onAction="#calcularVolumenCilindro" 
+                                        GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                                        GridPane.columnSpan="2"/>
+                            </GridPane>
+                            <Label fx:id="resultadoCilindro" styleClass="result-label"/>
+                            <WebView fx:id="procedimientoCilindro" prefHeight="150"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Esfera -->
+                    <VBox spacing="15" styleClass="calculation-box">
+                        <Label text="Volumen de la Esfera" styleClass="section-title"/>
+                        <GridPane hgap="10" vgap="10">
+                            <Label text="Radio:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <TextField fx:id="esferaRadio" promptText="Ingrese el radio" 
+                                     GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                            
+                            <Button text="Calcular" onAction="#calcularVolumenEsfera" 
+                                    GridPane.columnIndex="0" GridPane.rowIndex="1" 
+                                    GridPane.columnSpan="2"/>
+                        </GridPane>
+                        <Label fx:id="resultadoEsfera" styleClass="result-label"/>
+                        <WebView fx:id="procedimientoEsfera" prefHeight="150"/>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+    </TabPane>
+</VBox> 
