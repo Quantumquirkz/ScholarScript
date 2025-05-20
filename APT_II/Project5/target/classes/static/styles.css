@@ -3,12 +3,13 @@ body {
 }
 
 .card {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    border-radius: 12px;
 }
 
 .card-header {
-    border-bottom: none;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 
 .form-control:focus, .form-select:focus {
@@ -17,18 +18,22 @@ body {
 }
 
 .btn-primary {
-    padding: 10px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    background-color: #0056b3;
+    border: none;
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #003d80;
 }
 
 .alert {
     border-radius: 8px;
+}
+
+.alert-info {
+    background-color: #e7f3fe;
+    color: #31708f;
+    border-color: #bce8f1;
 }
 
 #resultados {
