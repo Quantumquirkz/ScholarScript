@@ -1,18 +1,11 @@
 package com.projectile;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
+import java.io.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 
 public class ProjectileCalculator {
     private double initialVelocity;
@@ -22,6 +15,7 @@ public class ProjectileCalculator {
     private double maxHeight;
     private double maxDistance;
     private List<TrajectoryPoint> trajectory;
+    private static final DecimalFormat df = new DecimalFormat("#.##");
     private static final double GRAVITY = 9.81;
 
     public ProjectileCalculator() {
@@ -30,137 +24,125 @@ public class ProjectileCalculator {
 
     public void setInitialValues(double initialVelocity, double launchAngle) {
         this.initialVelocity = initialVelocity;
-        this.launchAngle = Math.toRadians(launchAngle); // Convertir grados a radianes
+        this.launchAngle = Math.toRadians(launchAngle);
     }
 
     public void calculateTotalFlightTime() {
-        this.totalFlightTime = (2 * initialVelocity * Math.sin(launchAngle)) / GRAVITY;
+        double verticalVelocity = initialVelocity * Math.sin(launchAngle);
+        this.totalFlightTime = (2 * verticalVelocity) / GRAVITY;
     }
 
     public void calculateTimeToMaxHeight() {
-        this.timeToMaxHeight = (initialVelocity * Math.sin(launchAngle)) / GRAVITY;
+        double verticalVelocity = initialVelocity * Math.sin(launchAngle);
+        this.timeToMaxHeight = verticalVelocity / GRAVITY;
     }
 
     public void calculateMaxHeight() {
-        this.maxHeight = (initialVelocity * initialVelocity * Math.sin(launchAngle) * Math.sin(launchAngle)) / (2 * GRAVITY);
+        double verticalVelocity = initialVelocity * Math.sin(launchAngle);
+        this.maxHeight = (verticalVelocity * verticalVelocity) / (2 * GRAVITY);
     }
 
     public void calculateMaxDistance() {
-        this.maxDistance = (initialVelocity * initialVelocity * Math.sin(2 * launchAngle)) / GRAVITY;
+        double horizontalVelocity = initialVelocity * Math.cos(launchAngle);
+        this.maxDistance = horizontalVelocity * totalFlightTime;
     }
 
     public void calculateTrajectory() {
         trajectory.clear();
-        for (double t = 0; t <= Math.ceil(totalFlightTime); t += 0.1) {
-            double height = Math.max(0, initialVelocity * Math.sin(launchAngle) * t - 0.5 * GRAVITY * t * t);
-            double horizontalVelocity = initialVelocity * Math.cos(launchAngle);
-            double verticalVelocity = initialVelocity * Math.sin(launchAngle) - GRAVITY * t;
-            double horizontalPosition = initialVelocity * Math.cos(launchAngle) * t;
+        double timeStep = totalFlightTime / 20; // 20 puntos en la trayectoria
+        double horizontalVelocity = initialVelocity * Math.cos(launchAngle);
+        double verticalVelocity = initialVelocity * Math.sin(launchAngle);
+
+        for (double t = 0; t <= totalFlightTime; t += timeStep) {
+            double height = (verticalVelocity * t) - (0.5 * GRAVITY * t * t);
+            double horizontalPosition = horizontalVelocity * t;
+            double currentVerticalVelocity = verticalVelocity - (GRAVITY * t);
 
             trajectory.add(new TrajectoryPoint(
-                Math.round(t * 10) / 10.0,
-                Math.round(height * 100) / 100.0,
-                Math.round(horizontalPosition * 100) / 100.0,
-                Math.round(horizontalVelocity * 100) / 100.0,
-                Math.round(verticalVelocity * 100) / 100.0
+                Double.parseDouble(df.format(t)),
+                Double.parseDouble(df.format(height)),
+                Double.parseDouble(df.format(horizontalPosition)),
+                Double.parseDouble(df.format(horizontalVelocity)),
+                Double.parseDouble(df.format(currentVerticalVelocity))
             ));
-
-            if (height <= 0 && t > 0) break;
         }
     }
 
     public void saveResultsToTxt(String filePath) throws IOException {
-        StringBuilder content = new StringBuilder();
-        content.append("CALCULADORA DE MOVIMIENTO DE PROYECTIL\n");
-        content.append("=====================================\n\n");
-        content.append("PARÁMETROS DE ENTRADA:\n");
-        content.append(String.format("- Velocidad inicial: %.2f m/s\n", initialVelocity));
-        content.append(String.format("- Ángulo de lanzamiento: %.2f°\n\n", Math.toDegrees(launchAngle)));
-        content.append("RESULTADOS PRINCIPALES:\n");
-        content.append(String.format("- Tiempo total de vuelo: %.2f s\n", totalFlightTime));
-        content.append(String.format("- Tiempo de subida: %.2f s\n", timeToMaxHeight));
-        content.append(String.format("- Altura máxima: %.2f m\n", maxHeight));
-        content.append(String.format("- Distancia máxima: %.2f m\n\n", maxDistance));
-        content.append("EVOLUCIÓN DEL PROYECTIL:\n");
-        content.append("========================\n");
-        content.append("Tiempo(s) | Altura(m) | Pos.Horiz(m) | Vel.Horiz(m/s) | Vel.Vert(m/s)\n");
-        content.append("----------------------------------------------------------------------\n");
-
-        for (TrajectoryPoint point : trajectory) {
-            content.append(String.format("%-9.1f | %-9.2f | %-12.2f | %-14.2f | %.2f\n",
-                point.getTime(),
-                point.getHeight(),
-                point.getHorizontalPosition(),
-                point.getHorizontalVelocity(),
-                point.getVerticalVelocity()
-            ));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Resultados del Movimiento de Proyectil\n");
+            writer.write("=====================================\n\n");
+            writer.write("Velocidad inicial: " + df.format(initialVelocity) + " m/s\n");
+            writer.write("Ángulo de lanzamiento: " + df.format(Math.toDegrees(launchAngle)) + "°\n\n");
+            writer.write("Tiempo total de vuelo: " + df.format(totalFlightTime) + " s\n");
+            writer.write("Tiempo hasta altura máxima: " + df.format(timeToMaxHeight) + " s\n");
+            writer.write("Altura máxima: " + df.format(maxHeight) + " m\n");
+            writer.write("Distancia máxima: " + df.format(maxDistance) + " m\n\n");
+            writer.write("Trayectoria:\n");
+            writer.write("Tiempo (s)\tAltura (m)\tPosición Horizontal (m)\tVelocidad Horizontal (m/s)\tVelocidad Vertical (m/s)\n");
+            
+            for (TrajectoryPoint point : trajectory) {
+                writer.write(String.format("%s\t%s\t%s\t%s\t%s\n",
+                    df.format(point.getTime()),
+                    df.format(point.getHeight()),
+                    df.format(point.getHorizontalPosition()),
+                    df.format(point.getHorizontalVelocity()),
+                    df.format(point.getVerticalVelocity())
+                ));
+            }
         }
-
-        content.append("\nGenerado el: ").append(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
-
-        Files.write(Paths.get(filePath), content.toString().getBytes());
     }
 
     public void saveResultsToPdf(String filePath) throws DocumentException, IOException {
         Document document = new Document();
-        PdfWriter.getInstance(document, Files.newOutputStream(Paths.get(filePath)));
+        PdfWriter.getInstance(document, new FileOutputStream(filePath));
         document.open();
 
         // Título
-        document.add(new Paragraph("CALCULADORA DE MOVIMIENTO DE PROYECTIL"));
-        document.add(new Paragraph("\n"));
+        Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+        Paragraph title = new Paragraph("Resultados del Movimiento de Proyectil", titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        title.setSpacingAfter(20);
+        document.add(title);
 
-        // Parámetros de entrada
-        document.add(new Paragraph("PARÁMETROS DE ENTRADA:"));
-        document.add(new Paragraph(String.format("Velocidad inicial: %.2f m/s", initialVelocity)));
-        document.add(new Paragraph(String.format("Ángulo de lanzamiento: %.2f°", Math.toDegrees(launchAngle))));
-        document.add(new Paragraph("\n"));
+        // Datos principales
+        Font normalFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+        document.add(new Paragraph("Velocidad inicial: " + df.format(initialVelocity) + " m/s", normalFont));
+        document.add(new Paragraph("Ángulo de lanzamiento: " + df.format(Math.toDegrees(launchAngle)) + "°", normalFont));
+        document.add(new Paragraph("Tiempo total de vuelo: " + df.format(totalFlightTime) + " s", normalFont));
+        document.add(new Paragraph("Tiempo hasta altura máxima: " + df.format(timeToMaxHeight) + " s", normalFont));
+        document.add(new Paragraph("Altura máxima: " + df.format(maxHeight) + " m", normalFont));
+        document.add(new Paragraph("Distancia máxima: " + df.format(maxDistance) + " m", normalFont));
+        document.add(new Paragraph("\nTrayectoria:", normalFont));
 
-        // Resultados principales
-        document.add(new Paragraph("RESULTADOS PRINCIPALES:"));
-        document.add(new Paragraph(String.format("Tiempo total de vuelo: %.2f s", totalFlightTime)));
-        document.add(new Paragraph(String.format("Tiempo de subida: %.2f s", timeToMaxHeight)));
-        document.add(new Paragraph(String.format("Altura máxima: %.2f m", maxHeight)));
-        document.add(new Paragraph(String.format("Distancia máxima: %.2f m", maxDistance)));
-        document.add(new Paragraph("\n"));
-
-        // Tabla de evolución
-        document.add(new Paragraph("EVOLUCIÓN DEL PROYECTIL:"));
-        document.add(new Paragraph("Tiempo(s) | Altura(m) | Pos.Horiz(m) | Vel.Horiz(m/s) | Vel.Vert(m/s)"));
-        document.add(new Paragraph("----------------------------------------------------------------------"));
-
-        for (TrajectoryPoint point : trajectory) {
-            document.add(new Paragraph(String.format("%-9.1f | %-9.2f | %-12.2f | %-14.2f | %.2f",
-                point.getTime(),
-                point.getHeight(),
-                point.getHorizontalPosition(),
-                point.getHorizontalVelocity(),
-                point.getVerticalVelocity()
-            )));
+        // Tabla de trayectoria
+        PdfPTable table = new PdfPTable(5);
+        table.setWidthPercentage(100);
+        
+        // Encabezados
+        String[] headers = {"Tiempo (s)", "Altura (m)", "Posición Horizontal (m)", 
+                          "Velocidad Horizontal (m/s)", "Velocidad Vertical (m/s)"};
+        for (String header : headers) {
+            table.addCell(new PdfPCell(new Phrase(header, normalFont)));
         }
 
-        document.add(new Paragraph("\nGenerado el: " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())));
+        // Datos
+        for (TrajectoryPoint point : trajectory) {
+            table.addCell(df.format(point.getTime()));
+            table.addCell(df.format(point.getHeight()));
+            table.addCell(df.format(point.getHorizontalPosition()));
+            table.addCell(df.format(point.getHorizontalVelocity()));
+            table.addCell(df.format(point.getVerticalVelocity()));
+        }
+
+        document.add(table);
         document.close();
     }
 
     // Getters
-    public double getTotalFlightTime() {
-        return totalFlightTime;
-    }
-
-    public double getTimeToMaxHeight() {
-        return timeToMaxHeight;
-    }
-
-    public double getMaxHeight() {
-        return maxHeight;
-    }
-
-    public double getMaxDistance() {
-        return maxDistance;
-    }
-
-    public List<TrajectoryPoint> getTrajectory() {
-        return trajectory;
-    }
+    public double getTotalFlightTime() { return totalFlightTime; }
+    public double getTimeToMaxHeight() { return timeToMaxHeight; }
+    public double getMaxHeight() { return maxHeight; }
+    public double getMaxDistance() { return maxDistance; }
+    public List<TrajectoryPoint> getTrajectory() { return trajectory; }
 } 
