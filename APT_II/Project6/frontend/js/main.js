@@ -15,6 +15,74 @@ const downloadPdfBtn = document.getElementById('downloadPdfBtn');
 // Variables globales
 let currentResults = null;
 const BACKEND_URL = 'http://localhost:4567';
+let trajectoryChart = null;
+
+// Función para inicializar la gráfica
+function initChart() {
+    const ctx = document.getElementById('trajectoryChart').getContext('2d');
+    trajectoryChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Trayectoria del Proyectil',
+                data: [],
+                backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                borderColor: 'rgba(59, 130, 246, 1)',
+                borderWidth: 1,
+                pointRadius: 3,
+                pointHoverRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: 'Distancia Horizontal (m)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Altura (m)'
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Trayectoria del Proyectil'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const point = context.raw;
+                            return `Tiempo: ${point.t}s\nAltura: ${point.y}m\nDistancia: ${point.x}m`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Función para actualizar la gráfica
+function updateChart() {
+    if (!currentResults || !trajectoryChart) return;
+
+    const data = currentResults.trajectory.map(point => ({
+        x: point.horizontalPosition,
+        y: point.height,
+        t: point.time
+    }));
+
+    trajectoryChart.data.datasets[0].data = data;
+    trajectoryChart.update();
+}
 
 // Función para calcular el movimiento del proyectil
 async function calculateProjectileMotion() {
@@ -53,6 +121,7 @@ async function calculateProjectileMotion() {
         const data = await response.json();
         currentResults = data;
         displayResults();
+        updateChart();
     } catch (err) {
         if (err.message === 'Failed to fetch') {
             showError('No se pudo conectar con el servidor. Asegúrate de que el backend esté ejecutándose en http://localhost:4567');
@@ -146,6 +215,9 @@ async function downloadPDF() {
         showError('Error al descargar el archivo PDF: ' + error.message);
     }
 }
+
+// Inicializar la gráfica cuando se carga la página
+document.addEventListener('DOMContentLoaded', initChart);
 
 // Event Listeners
 calculateBtn.addEventListener('click', calculateProjectileMotion);

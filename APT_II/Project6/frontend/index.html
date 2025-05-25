@@ -4,115 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Movimiento de Proyectil</title>
-    <link rel="stylesheet" href="styles/main.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="styles/main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-    <div class="max-w-6xl mx-auto space-y-6">
-        <!-- Header -->
-        <div class="text-center py-8">
-            <div class="flex items-center justify-center gap-2 mb-4">
-                <svg class="h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-                    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
-                    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
-                    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
-                </svg>
-                <h1 class="text-4xl font-bold text-gray-900">Calculadora de Movimiento de Proyectil</h1>
-            </div>
-            <p class="text-lg text-gray-600">Calcula la trayectoria, altura máxima y distancia de un proyectil</p>
-        </div>
+<body class="bg-gradient-to-br from-blue-100 to-blue-200 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-800 mb-2">Calculadora de Movimiento de Proyectil</h1>
+            <p class="text-gray-600">Ingresa los parámetros de lanzamiento para calcular la trayectoria</p>
+        </header>
 
-        <!-- Input Form -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <div class="mb-4">
-                <h2 class="text-xl font-bold flex items-center gap-2">
-                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 21H3"></path>
-                        <path d="M9 3v18"></path>
-                        <path d="M3 9h18"></path>
-                    </svg>
-                    Parámetros de Lanzamiento
-                </h2>
-                <p class="text-gray-600">Ingresa la velocidad inicial y el ángulo de lanzamiento</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="space-y-2">
-                    <label for="velocity" class="block text-sm font-medium text-gray-700">Velocidad Inicial (m/s)</label>
-                    <input type="number" id="velocity" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Ej: 50" min="0" step="0.1">
-                </div>
-                <div class="space-y-2">
-                    <label for="angle" class="block text-sm font-medium text-gray-700">Ángulo de Lanzamiento (grados)</label>
-                    <input type="number" id="angle" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Ej: 45" min="0" max="90" step="0.1">
-                </div>
-            </div>
-            <div class="mt-4">
-                <button id="calculateBtn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-                    Calcular
-                </button>
-            </div>
-        </div>
-
-        <!-- Results -->
-        <div id="results" class="hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Formulario de entrada -->
             <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-bold mb-4">Resultados</h2>
+                <form id="projectileForm" class="space-y-4">
+                    <div>
+                        <label for="velocity" class="block text-sm font-medium text-gray-700">Velocidad Inicial (m/s)</label>
+                        <input type="number" id="velocity" name="velocity" step="0.01" min="0" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="angle" class="block text-sm font-medium text-gray-700">Ángulo de Lanzamiento (grados)</label>
+                        <input type="number" id="angle" name="angle" step="0.01" min="0" max="90" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+                    <button type="button" id="calculateBtn"
+                        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Calcular
+                    </button>
+                </form>
+            </div>
+
+            <!-- Gráfica de la trayectoria -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Gráfica de la Trayectoria</h2>
+                <div class="relative h-80">
+                    <canvas id="trajectoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensaje de error -->
+        <div id="error" class="hidden mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline"></span>
+        </div>
+
+        <!-- Resultados -->
+        <div id="results" class="hidden mt-8">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Resultados</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="p-4 bg-blue-50 rounded-lg">
-                        <div class="flex items-center gap-2">
-                            <svg class="h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            <h3 class="font-semibold">Tiempo Total</h3>
-                        </div>
-                        <p id="totalTime" class="text-2xl font-bold text-blue-600">0 s</p>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-sm font-medium text-blue-800">Tiempo Total de Vuelo</h3>
+                        <p id="totalTime" class="text-2xl font-bold text-blue-600">0.00 s</p>
                     </div>
-                    <div class="p-4 bg-green-50 rounded-lg">
-                        <div class="flex items-center gap-2">
-                            <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
-                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
-                            </svg>
-                            <h3 class="font-semibold">Altura Máxima</h3>
-                        </div>
-                        <p id="maxHeight" class="text-2xl font-bold text-green-600">0 m</p>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-sm font-medium text-blue-800">Tiempo hasta Altura Máxima</h3>
+                        <p id="timeToMaxHeight" class="text-2xl font-bold text-blue-600">0.00 s</p>
                     </div>
-                    <div class="p-4 bg-purple-50 rounded-lg">
-                        <div class="flex items-center gap-2">
-                            <svg class="h-5 w-5 text-purple-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                <path d="M2 17l10 5 10-5"></path>
-                                <path d="M2 12l10 5 10-5"></path>
-                            </svg>
-                            <h3 class="font-semibold">Distancia Máxima</h3>
-                        </div>
-                        <p id="maxDistance" class="text-2xl font-bold text-purple-600">0 m</p>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-sm font-medium text-blue-800">Altura Máxima</h3>
+                        <p id="maxHeight" class="text-2xl font-bold text-blue-600">0.00 m</p>
                     </div>
-                    <div class="p-4 bg-yellow-50 rounded-lg">
-                        <div class="flex items-center gap-2">
-                            <svg class="h-5 w-5 text-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2v20"></path>
-                                <path d="M2 12h20"></path>
-                            </svg>
-                            <h3 class="font-semibold">Tiempo de Subida</h3>
-                        </div>
-                        <p id="timeToMaxHeight" class="text-2xl font-bold text-yellow-600">0 s</p>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-sm font-medium text-blue-800">Distancia Máxima</h3>
+                        <p id="maxDistance" class="text-2xl font-bold text-blue-600">0.00 m</p>
                     </div>
                 </div>
 
-                <!-- Trajectory Table -->
-                <div class="mt-6">
-                    <h3 class="text-lg font-semibold mb-4">Evolución del Proyectil</h3>
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Tabla de Trayectoria</h3>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tiempo (s)</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Altura (m)</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pos. Horizontal (m)</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vel. Horizontal (m/s)</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vel. Vertical (m/s)</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Posición Horizontal (m)</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Velocidad Horizontal (m/s)</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Velocidad Vertical (m/s)</th>
                                 </tr>
                             </thead>
                             <tbody id="trajectoryTable" class="bg-white divide-y divide-gray-200">
@@ -121,38 +92,17 @@
                     </div>
                 </div>
 
-                <!-- Download Buttons -->
-                <div class="mt-6 flex gap-4">
-                    <button id="downloadTxtBtn" class="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10 9 9 9 8 9"></polyline>
-                        </svg>
+                <div class="mt-6 flex space-x-4">
+                    <button id="downloadTxtBtn" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                         Descargar TXT
                     </button>
-                    <button id="downloadPdfBtn" class="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10 9 9 9 8 9"></polyline>
-                        </svg>
+                    <button id="downloadPdfBtn" class="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                         Descargar PDF
                     </button>
                 </div>
             </div>
         </div>
-
-        <!-- Error Message -->
-        <div id="error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline"></span>
-        </div>
     </div>
-
     <script src="js/main.js"></script>
 </body>
 </html> 
