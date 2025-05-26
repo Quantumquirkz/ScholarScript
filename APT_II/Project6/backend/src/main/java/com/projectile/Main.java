@@ -1,13 +1,12 @@
 package com.projectile;
 
+import java.io.File;
+import java.nio.file.Files;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
 import spark.Spark;
-import spark.Request;
-import spark.Response;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.io.File;
 
 public class Main {
     private static final Gson gson = new Gson();
@@ -156,6 +155,24 @@ public class Main {
             } catch (Exception e) {
                 response.status(500);
                 return "Error al leer el archivo: " + e.getMessage();
+            }
+        });
+
+        // Nuevo endpoint para leer resultados usando BufferedReader
+        Spark.get("/api/read-results", (request, response) -> {
+            try {
+                String filePath = new File(projectDir, "results.txt").getAbsolutePath();
+                File file = new File(filePath);
+                if (!file.exists()) {
+                    response.status(404);
+                    return gson.toJson(new ErrorResponse("Archivo no encontrado"));
+                }
+                String content = calculator.readResultsFromTxt(filePath);
+                response.type("application/json");
+                return gson.toJson(new SuccessResponse(content));
+            } catch (Exception e) {
+                response.status(500);
+                return gson.toJson(new ErrorResponse("Error al leer el archivo: " + e.getMessage()));
             }
         });
     }
