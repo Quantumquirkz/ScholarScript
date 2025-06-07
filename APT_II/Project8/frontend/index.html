@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Descuentos por Día</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛒 Calculadora de Descuentos</h1>
+            <p>Calcula tu descuento según el día de la semana</p>
+        </header>
+
+        <main>
+            <div class="calculator-card">
+                <form id="discountForm">
+                    <div class="form-group">
+                        <label for="daySelect">Selecciona el día de la semana:</label>
+                        <select id="daySelect" required>
+                            <option value="">-- Elige un día --</option>
+                            <option value="lunes">Lunes</option>
+                            <option value="martes">Martes</option>
+                            <option value="miercoles">Miércoles</option>
+                            <option value="jueves">Jueves</option>
+                            <option value="viernes">Viernes</option>
+                            <option value="sabado">Sábado</option>
+                            <option value="domingo">Domingo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subtotalInput">Subtotal de la compra ($):</label>
+                        <input 
+                            type="number" 
+                            id="subtotalInput" 
+                            step="0.01" 
+                            min="0" 
+                            placeholder="Ingresa el subtotal"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="calculate-btn">
+                        💰 Calcular Total
+                    </button>
+                </form>
+
+                <div id="errorMessage" class="error-message"></div>
+            </div>
+
+            <div id="resultsContainer" class="results-container" style="display: none;">
+                <h3>📋 Resumen de Compra</h3>
+                <div class="results-box">
+                    <pre id="resultsOutput"></pre>
+                </div>
+                <button id="clearBtn" class="clear-btn">🔄 Nueva Calculación</button>
+            </div>
+        </main>
+
+        <footer>
+            <div class="discount-info">
+                <h4>ℹ️ Información de Descuentos</h4>
+                <div class="discount-rules">
+                    <div class="rule weekday">
+                        <span class="days">Lunes - Viernes</span>
+                        <span class="discount">50% OFF</span>
+                    </div>
+                    <div class="rule weekend">
+                        <span class="days">Sábado - Domingo</span>
+                        <span class="discount">Sin descuento</span>
+                    </div>
+                </div>
+                <p class="tax-info">* Se aplica 7% de impuesto sobre el total con descuento</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
