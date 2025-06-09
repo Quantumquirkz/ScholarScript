@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Elementos Químicos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header role="banner">
+            <h1>Gestión de Elementos de la Tabla Periódica</h1>
+            <div class="theme-toggle">
+                <button id="theme-toggle-btn" aria-label="Cambiar tema" aria-pressed="false">
+                    <span class="icon-light" aria-hidden="true">☀️</span>
+                    <span class="icon-dark" aria-hidden="true">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <main role="main">
+            <section class="input-section" aria-labelledby="input-section-title">
+                <h2 id="input-section-title">Entrada de Datos</h2>
+                <form id="element-count-form" aria-label="Formulario de cantidad de elementos">
+                    <div class="form-group">
+                        <label for="element-count">Número de elementos a ingresar:</label>
+                        <input type="number" id="element-count" min="1" max="118" required
+                               aria-describedby="element-count-description">
+                        <div id="element-count-description" class="visually-hidden">
+                            Ingrese un número entre 1 y 118 para especificar cuántos elementos desea agregar
+                        </div>
+                        <button type="submit" class="btn primary">Continuar</button>
+                    </div>
+                </form>
+
+                <form id="elements-form" class="hidden" aria-label="Formulario de elementos químicos">
+                    <div id="elements-container" role="list"></div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary">Guardar Elementos</button>
+                        <button type="button" id="reset-btn" class="btn secondary">Limpiar</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="results-section hidden" id="results-section" aria-labelledby="results-section-title">
+                <h2 id="results-section-title">Elementos Ingresados</h2>
+                <div class="table-container" role="region" aria-label="Tabla de elementos químicos">
+                    <table id="elements-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Posición</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Símbolo</th>
+                                <th scope="col">Número Atómico</th>
+                                <th scope="col">Peso Atómico</th>
+                            </tr>
+                        </thead>
+                        <tbody id="elements-table-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="stats-container" role="region" aria-label="Estadísticas de elementos">
+                    <div class="stat-card" id="max-atomic-number" role="article">
+                        <h3>Mayor Número Atómico</h3>
+                        <div class="stat-content">
+                            <div class="element-symbol" aria-hidden="true"></div>
+                            <div class="element-details">
+                                <p class="element-name"></p>
+                                <p class="element-value"></p>
+                                <p class="element-position"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card" id="max-atomic-weight" role="article">
+                        <h3>Mayor Peso Atómico</h3>
+                        <div class="stat-content">
+                            <div class="element-symbol" aria-hidden="true"></div>
+                            <div class="element-details">
+                                <p class="element-name"></p>
+                                <p class="element-value"></p>
+                                <p class="element-position"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="export-btn" class="btn secondary" aria-label="Exportar datos a CSV">Exportar a CSV</button>
+                    <button id="clear-data-btn" class="btn danger" aria-label="Eliminar todos los elementos">Eliminar Todos</button>
+                </div>
+            </section>
+
+            <div id="loading" class="loading hidden" role="alert" aria-live="polite">
+                <div class="spinner" aria-hidden="true"></div>
+                <p>Procesando...</p>
+            </div>
+        </main>
+
+        <footer role="contentinfo">
+            <p>Aplicación de Gestión de Elementos Químicos &copy; 2025</p>
+        </footer>
+    </div>
+
+    <div id="notification" class="notification hidden" role="alert" aria-live="polite"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
