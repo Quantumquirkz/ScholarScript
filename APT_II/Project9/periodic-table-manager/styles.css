@@ -58,8 +58,8 @@ body {
 
 header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
   padding-bottom: var(--spacing-md);
   border-bottom: 1px solid var(--border-color);
@@ -449,4 +449,47 @@ select:focus {
 
 .notification.error {
   border-left-color: var(--danger-color);
+}
+
+.university-info {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.university-info h2 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.university-info h3 {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+.university-info p {
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-light);
+}
+
+.university-info ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing-xs) 0;
+}
+
+.university-info li {
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-light);
+}
+
+header > div:last-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
