@@ -1,7 +1,0 @@
-Main.class
-models/ElementoQuimico.class
-controllers/ElementoController$ErrorResponse.class
-controllers/ElementoController.class
-controllers/ElementoController$1.class
-services/GestorElementos.class
-controllers/ElementoController$SuccessResponse.class

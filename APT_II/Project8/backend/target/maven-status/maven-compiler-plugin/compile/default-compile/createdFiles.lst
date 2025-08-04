@@ -1,7 +1,0 @@
-com/mcmenus/service/EmailService.class
-com/mcmenus/model/CalculationRequest.class
-com/mcmenus/controller/CalculationController.class
-com/mcmenus/McMenusApplication.class
-com/mcmenus/model/CalculationResult.class
-com/mcmenus/service/CalculationService.class
-com/mcmenus/model/MenuItem.class
