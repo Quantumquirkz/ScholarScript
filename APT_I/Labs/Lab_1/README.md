@@ -101,124 +101,195 @@ Results:
 **Requirements**:
 - Accept temperature in Celsius
 - Convert to Fahrenheit using formula: F = (C * 9/5) + 32
-- Display both values with appropriate labels
-- Format output to 2 decimal places
+- Display both values with proper formatting
+- Handle negative temperatures
 
 **Expected Output**:
 ```
 Temperature Converter
 Enter temperature in Celsius: 25
-25.00°C = 77.00°F
+25°C = 77°F
 ```
 
-## 🔧 Implementation Guidelines
+### 📝 Exercise 4: Student Grade Calculator
+**Objective**: Calculate and display student grades
 
-### 📁 File Structure
+**Requirements**:
+- Accept student name and three test scores
+- Calculate average score
+- Determine letter grade (A: 90-100, B: 80-89, C: 70-79, D: 60-69, F: <60)
+- Display comprehensive grade report
+
+**Expected Output**:
 ```
-Lab_1/
-├── README.md           # This file
-├── hello_world.cpp     # Exercise 1
-├── calculator.cpp      # Exercise 2
-├── temperature.cpp     # Exercise 3
-├── input.txt          # Sample input data
-├── expected_output.txt # Expected results
-└── Makefile           # Compilation script
-```
+Student Grade Calculator
+Enter student name: Maria
+Enter test 1 score: 85
+Enter test 2 score: 92
+Enter test 3 score: 78
 
-### 🔧 Compilation Commands
-```bash
-# Compile individual programs
-g++ -o hello_world hello_world.cpp
-g++ -o calculator calculator.cpp
-g++ -o temperature temperature.cpp
-
-# Compile with warnings
-g++ -Wall -Wextra -o program program.cpp
-
-# Compile with debugging information
-g++ -g -o program program.cpp
+Grade Report for Maria:
+Test 1: 85
+Test 2: 92
+Test 3: 78
+Average: 85.0
+Letter Grade: B
 ```
 
-### 📝 Code Standards
-- Use meaningful variable names
-- Include proper comments
-- Handle input validation
-- Format output clearly
-- Follow consistent indentation
+### 📝 Exercise 5: Area and Perimeter Calculator
+**Objective**: Calculate geometric properties
 
-## 🧪 Testing and Validation
+**Requirements**:
+- Accept dimensions for rectangle, circle, and triangle
+- Calculate area and perimeter/circumference
+- Display results in a formatted table
+- Use appropriate mathematical constants
 
-### ✅ Test Cases
-1. **Normal Input**: Test with typical values
-2. **Edge Cases**: Test with zero, negative numbers
-3. **Invalid Input**: Test with non-numeric input
-4. **Boundary Values**: Test with maximum/minimum values
+**Expected Output**:
+```
+Geometric Calculator
+Enter rectangle length: 10
+Enter rectangle width: 5
+Enter circle radius: 7
+Enter triangle base: 8
+Enter triangle height: 6
 
-### 🔍 Debugging Tips
-- Use cout statements to trace program flow
-- Check variable values at different points
-- Verify input/output operations
-- Test with different data sets
+Results:
+Rectangle: Area = 50, Perimeter = 30
+Circle: Area = 153.94, Circumference = 43.98
+Triangle: Area = 24, Perimeter = [calculated]
+```
+
+## 🧪 Advanced Exercises
+
+### 📝 Exercise 6: Currency Converter
+**Objective**: Convert between different currencies
+
+**Requirements**:
+- Support USD, EUR, GBP, JPY conversions
+- Use current exchange rates (hardcoded for lab)
+- Accept amount and source/target currencies
+- Display conversion with proper formatting
+
+### 📝 Exercise 7: Time Calculator
+**Objective**: Perform time calculations
+
+**Requirements**:
+- Add/subtract hours, minutes, seconds
+- Convert between time formats (12/24 hour)
+- Calculate time differences
+- Handle day boundaries
+
+### 📝 Exercise 8: Mathematical Functions
+**Objective**: Implement basic mathematical functions
+
+**Requirements**:
+- Calculate square, cube, square root
+- Implement power function
+- Calculate factorial
+- Handle edge cases and errors
 
 ## 📊 Assessment Criteria
 
-### 🎯 Functionality (40%)
+### 🎯 Code Quality (30%)
+- Proper variable naming and declarations
+- Clean and readable code structure
+- Appropriate use of comments
+- Consistent formatting and indentation
+
+### 🔧 Functionality (40%)
 - Programs compile without errors
 - Correct output for all test cases
-- Proper handling of edge cases
-- Input validation implemented
+- Proper input validation
+- Error handling where appropriate
 
-### 📝 Code Quality (30%)
-- Clean and readable code
-- Proper variable naming
-- Consistent formatting
-- Appropriate comments
-
-### 📚 Documentation (20%)
+### 📝 Documentation (20%)
 - Clear program descriptions
 - Function documentation
 - Input/output specifications
 - Algorithm explanations
 
 ### 🧪 Testing (10%)
-- Comprehensive test cases
-- Edge case handling
+- Test with various input values
+- Edge case testing
 - Error condition testing
 - Performance considerations
 
+## 🛠️ Development Guidelines
+
+### 🔧 Compilation Commands
+```bash
+# Basic compilation
+g++ -o program program.cpp
+
+# With warnings enabled
+g++ -Wall -Wextra -o program program.cpp
+
+# With debugging information
+g++ -g -o program program.cpp
+
+# With optimization
+g++ -O2 -o program program.cpp
+```
+
+### 📝 Code Standards
+- Use meaningful variable names
+- Include header comments
+- Add inline comments for complex logic
+- Follow consistent indentation (4 spaces)
+- Use proper spacing around operators
+
+### 🧪 Testing Strategy
+- Test with normal input values
+- Test with edge cases (0, negative numbers, large values)
+- Test with invalid input
+- Verify output formatting
+
 ## 📚 Additional Resources
 
-### 📖 Reading Materials
-- C++ Primer, Chapter 1: Getting Started
-- C++ Tutorial: Basic Syntax
-- C++ Reference: Data Types
-
-### 🌐 Online Resources
+### 📖 Reference Materials
 - [C++ Tutorial](https://www.cplusplus.com/doc/tutorial/)
 - [C++ Reference](https://en.cppreference.com/)
 - [GCC Documentation](https://gcc.gnu.org/onlinedocs/)
 
-### 🛠️ Tools
-- [Online C++ Compiler](https://www.onlinegdb.com/online_c++_compiler)
-- [C++ Code Formatter](https://format.krzaq.cc/)
-- [C++ Linter](https://cppcheck.sourceforge.io/)
+### 🛠️ Development Tools
+- **IDE**: Visual Studio Code, CLion, Dev-C++
+- **Compiler**: GCC/G++ (GNU Compiler Collection)
+- **Debugger**: GDB (GNU Debugger)
+- **Version Control**: Git
 
-## 🚀 Next Steps
-After completing this lab, students should:
-1. Review the concepts covered
-2. Practice with additional exercises
-3. Prepare for Lab 2: Control Structures
-4. Explore advanced C++ features
+### 📝 Submission Guidelines
+- Submit source code files (.cpp)
+- Include README with program descriptions
+- Provide test cases and expected outputs
+- Document any assumptions or limitations
 
-## 📞 Support and Questions
-- **Instructor Office Hours**: [Schedule]
-- **Teaching Assistant**: [Contact Information]
-- **Discussion Forum**: [Link to Course Forum]
-- **Email Support**: [Course Email]
+## 🎯 Learning Objectives Checklist
+
+- [ ] Understand C++ program structure
+- [ ] Declare and use different data types
+- [ ] Implement basic input/output operations
+- [ ] Use arithmetic operators correctly
+- [ ] Handle program compilation and execution
+- [ ] Write clean, documented code
+- [ ] Test programs with various inputs
+- [ ] Debug common programming errors
+
+## 📞 Support and Help
+
+### 👨‍🏫 Office Hours
+- **Instructor**: Available during scheduled office hours
+- **Teaching Assistants**: Lab support and tutoring
+- **Online Forums**: Course discussion and Q&A
+
+### 📧 Communication
+- **Email**: For individual questions and concerns
+- **Discussion Board**: For general questions and collaboration
+- **GitHub Issues**: For technical problems and bug reports
 
 ---
 
-**Lab Duration**: 2-3 hours  
+**Lab Duration**: 3 hours  
 **Difficulty Level**: Beginner  
 **Prerequisites**: None  
 **Last Updated**: December 2024
